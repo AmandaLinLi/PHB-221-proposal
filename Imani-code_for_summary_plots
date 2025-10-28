@@ -1,0 +1,26 @@
+ read_csv("~/Downloads/Heart-3.csv")-> heart_data
+library(dplyr)
+library(ggplot2)
+library(reshape2)
+
+pairs(df[,c("Age","RestBP","Chol","ExAng", "MaxHR")])
+ggplot(data = df,aes(x=ChestPain,y= MaxHR))+geom_violin()
+ggplot(data = df,aes(x=Sex,y= MaxHR))+geom_violin()
+df_con <- heart_data %>%
+  select(Age,Sex,RestBP,Chol,ExAng, MaxHR) 
+melt=melt(cov2cor(cov(df_con)))
+cov_plot <- ggplot(melt, aes(x = Var1, y = Var2, fill = value)) +
+    geom_tile() +
+  geom_text(aes(label = round(value,2)),color="black",size = 3)+
+   scale_fill_gradient2(
+         low = "orange", high = "hotpink", mid = "white",
+        midpoint = 0, limits = c(-1,1)
+     ) + labs(
+    title = "Covariance Matrix Heatmap",
+    x = "Variables",
+    y = "Variables",
+    fill = "Covariance"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+   cov_plot
