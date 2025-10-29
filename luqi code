@@ -1,0 +1,26 @@
+# Load necessary libraries
+# install.packages("ggplot2") # Uncomment and run if ggplot2 is not installed
+library(ggplot2)
+install.packages(c("ggplot2", "dplyr"))
+install.packages(c("rmarkdown", "knitr"))
+library(rmarkdown)
+library(knitr)
+library(ggplot2)
+library(dplyr)
+setwd("~/Downloads/PHB221 DATA")
+
+# Load the data file
+Heart <- read.csv("Heart.csv")
+
+# ---------------------------------------------------------------------
+
+png("marginal_MAXHR_AGE.png", width = 600, height = 600)
+plot(Heart$Age, Heart$MaxHR,
+     xlab = "AGE", ylab = "MAXHR",
+     main = "Marginal Plot: MAXHR VS AGE")
+abline(lm(MaxHR ~ Age, data = Heart), col = "red")
+dev.off()
+# ---------------------------------------------------------------------
+model_full <- lm(MaxHR ~ Age + RestBP + Chol + ExAng , data = Heart)
+print(summary(model_full))
+
