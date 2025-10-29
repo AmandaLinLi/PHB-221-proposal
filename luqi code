@@ -24,3 +24,8 @@ dev.off()
 model_full <- lm(MaxHR ~ Age + RestBP + Chol + ExAng , data = Heart)
 print(summary(model_full))
 
+model_1 <- lm( MaxHR ~ Age * Sex + RestBP + Chol + ExAng, data = Heart)
+print(summary(model_1))
+
+model_2 <- lm( MaxHR ~Age * ExAng + RestBP + Chol, data = Heart)
+print(summary(model_2))
