@@ -1,0 +1,22 @@
+sum(is.na(Heart_3))
+sum(duplicated(Heart_3))
+df=na.omit(Heart_3)
+df_num=df[sapply(df,is.numeric)]
+```
+```{r}
+md=mahalanobis(df_num,colMeans(df_num),cov(df_num))
+cutt=qchisq(.99,df=ncol(df_num))
+out=md>cutt
+table(out)
+df_comp=df[complete.cases(df_num), ]
+df_comp$out=out
+which(df_comp$out)
+df_clean=df[-c(91,126,152),]
+```
+```{r}
+fit1=lm(MaxHR~Sex+Age*ExAng+Chol+RestBP,data = Heart_3)
+fit=lm(MaxHR~Sex+Age*ExAng+Chol+RestBP,data = df_clean)
+summary(fit)
+summary(fit1)
+AIC(fit,fit1)
+```
